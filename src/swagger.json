@@ -1,0 +1,245 @@
+{
+  "openapi":"3.0.0",
+  "info": {
+    "title": "Desafio Swagger",
+    "description": "Desafio - Documentando com swagger",
+    "version": "1.0.0",
+    "contact": {
+      "email": "marxrosilva@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "José Teste",
+                  "email": "joseteste@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "299e9bc3-390a-4d44-a8c2-a74f2f14ae9b"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Marx Roberto"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "marx@teste.com.br"
+                    },
+                    "created_at": {
+                      "type": "Date",
+                      "example": "2021-08-03T04:43:17.928Z"
+                    } 
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email is already in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "This email is already in use"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Return all users",
+        "description": "Only access admin users",
+        "parameters": [
+            {
+            "name": "user_id",
+            "in": "header",
+            "required": "true",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": [
+                    {
+                      "admin": false,
+                      "id": "299e9bc3-390a-4d44-a8c2-a74f2f14ae9b",
+                      "name": "Marx Roberto",
+                      "email": "marx@teste.com.br",
+                      "created_at": "2021-08-03T04:43:17.928Z"
+                    },
+                    {
+                      "admin": true,
+                      "id": "f4b91c5b-ae98-42a1-8924-9d13940b33bb",
+                      "name": "Zé Teste",
+                      "email": "email@teste.com.br",
+                      "created_at": "2021-08-03T04:42:40.489Z",
+                      "updated_at": "2021-08-03T04:42:54.965Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User dos not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "User dos not exist"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:user/admin": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Turn a user as admin",
+        "description": "Turn a user as admin by ID",
+        "parameters": [
+            {
+            "name": "user_id",
+            "in": "path",
+            "required": "true",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                      "admin": true,
+                      "id": "299e9bc3-390a-4d44-a8c2-a74f2f14ae9b",
+                      "name": "Marx Roberto",
+                      "email": "marx@teste.com.br",
+                      "created_at": "2021-08-03T04:43:17.928Z"
+                    }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User dos not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "User dos not exist"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "User profile",
+        "description": "Show user profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": "true",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                      "admin": true,
+                      "id": "299e9bc3-390a-4d44-a8c2-a74f2f14ae9b",
+                      "name": "Marx Roberto",
+                      "email": "marx@teste.com.br",
+                      "created_at": "2021-08-03T04:43:17.928Z"
+                    }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User dos not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "User dos not exist"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
